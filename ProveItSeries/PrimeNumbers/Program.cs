@@ -50,7 +50,36 @@ namespace PrimeNumbers
                             }
                             break;
                         case (2):
+                            int num2 = 0;
+                            bool validInt2 = false;
+                            while(!validInt2)
+                            {
+                                Console.WriteLine("Enter an integer value: ");
+                                string entry = Console.ReadLine();
+                                if(!int.TryParse(entry, out num2))
+                                {
+                                    Console.WriteLine($"{entry} is not a valid integer. Please try again");
+                                    Console.Read();
+                                    Console.Clear();
+                                }
+                            }
 
+                            List<int> results = ExecuteSiev(num2);
+                            if(results.Count == 0)
+                            {
+                                Console.WriteLine($"{num2} is NOT a prime number.");
+                                Console.WriteLine($"There are no Prime factors in {num2}");
+                            }
+                            else if (results[results.Count - 1] == num2)
+                            {
+                                Console.WriteLine($"{num2} IS a prime number");
+                                Console.WriteLine("These are the Prime Factors:");
+                                foreach(int i in results)
+                                {
+                                    Console.WriteLine(i);
+                                }
+                            }
+                            Console.Read();
                             break;
                     }
                 }
@@ -79,6 +108,25 @@ namespace PrimeNumbers
             return true;
         }
 
+        private List<int> ExecuteSiev(int num)
+        {
+            List<int> nums = new List<int>();
 
+            if (num == 1)
+            {
+                nums.Add(1);
+                return nums;
+            } 
+           
+            for(int i = 1; i <= num; i++)
+            {
+                nums.Add(i);
+            }
+
+            for(int i = 2; i <= num; i++)
+            {
+
+            }
+        }
     }
 }
