@@ -1,4 +1,8 @@
 ﻿using System.Diagnostics;
+using System;
+using System.Text;
+using System.Collections;
+using System.Linq;
 
 namespace PrimeNumbers
 {
@@ -35,19 +39,17 @@ namespace PrimeNumbers
                                 Console.WriteLine();
                                 Console.WriteLine("Enter a integer value: ");
                                 string entry = Console.ReadLine();
+                                validInt = Int32.TryParse(entry, out num);
 
-                                if (!Int32.TryParse(entry, out num))
+                                if (!validInt)
                                 {
                                     Console.WriteLine($"{entry} is not a valid integer");
                                 }
-                                else
-                                {
-                                    Console.WriteLine(DivideMethod(num) ? $"Yes, {num} IS a Prime Number" :
-                                                                          $"No, {num} IS NOT a Prime Number");
-                                    Console.Read();
-                                    Console.Clear();
-                                }
                             }
+                            Console.WriteLine(DivideMethod(num) ? $"Yes, {num} IS a Prime Number" :
+                                                                  $"No, {num} IS NOT a Prime Number");
+                            Console.ReadLine();
+                            Console.Clear();
                             break;
                         case (2):
                             int num2 = 0;
@@ -56,7 +58,8 @@ namespace PrimeNumbers
                             {
                                 Console.WriteLine("Enter an integer value: ");
                                 string entry = Console.ReadLine();
-                                if(!int.TryParse(entry, out num2))
+                                validInt2 = int.TryParse(entry, out num2);
+                                if (!validInt2)
                                 {
                                     Console.WriteLine($"{entry} is not a valid integer. Please try again");
                                     Console.Read();
@@ -108,7 +111,7 @@ namespace PrimeNumbers
             return true;
         }
 
-        private List<int> ExecuteSiev(int num)
+        private static List<int> ExecuteSiev(int num)
         {
             List<int> nums = new List<int>();
 
@@ -125,8 +128,11 @@ namespace PrimeNumbers
 
             for(int i = 2; i <= num; i++)
             {
-
+                List<int> temp = nums.Where(n => n % i == 0).ToList();
+                nums = nums.Except(temp).ToList();
             }
+
+            return nums;
         }
     }
 }
