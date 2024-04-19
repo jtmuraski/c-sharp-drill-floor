@@ -22,13 +22,20 @@ namespace PrimeNumbers
                 if (!Int32.TryParse(input, out choice))
                 {
                     Console.WriteLine($"{input} is not a valid number");
+                    Console.WriteLine("Please press any key to enter a new option");
+                    Console.ReadLine();
+                    Console.Clear();
                 }
                 else if(choice > 3 || choice < 1)
                 {
                     Console.WriteLine($"{choice} is not a valid choice");
+                    Console.WriteLine("Please press any key to enter a new option");
+                    Console.ReadLine();
+                    Console.Clear();
                 }
-                else
+                else if(choice != 3)
                 {
+                    Console.Clear();
                     switch(choice)
                     {
                         case(1):
@@ -48,17 +55,15 @@ namespace PrimeNumbers
                             }
                             Console.WriteLine(DivideMethod(num) ? $"Yes, {num} IS a Prime Number" :
                                                                   $"No, {num} IS NOT a Prime Number");
-                            Console.ReadLine();
-                            Console.Clear();
                             break;
                         case (2):
                             int num2 = 0;
                             bool validInt2 = false;
-                            while(!validInt2)
+                            while (!validInt2)
                             {
                                 Console.WriteLine("Enter an integer value: ");
                                 string entry = Console.ReadLine();
-                                validInt2 = int.TryParse(entry, out num2);
+                                validInt2 = Int32.TryParse(entry, out num2);
                                 if (!validInt2)
                                 {
                                     Console.WriteLine($"{entry} is not a valid integer. Please try again");
@@ -82,11 +87,26 @@ namespace PrimeNumbers
                                     Console.WriteLine(i);
                                 }
                             }
-                            Console.Read();
+                            else
+                            {
+                                Console.WriteLine($"{num2} is NOT a prime numer");
+                                Console.WriteLine("But it does have the following prime factors:");
+                                foreach (int i in results)
+                                {
+                                    Console.WriteLine(i);
+                                }
+                            }
                             break;
                     }
+                    Console.WriteLine("Press any button to continue");
+                    Console.ReadLine();
+                    Console.Clear();
                 }
             }
+
+            Console.Clear();
+            Console.WriteLine("Thank you for using the Prime Number Checker! Press any button to exit the application");
+            Console.ReadLine();
         }
 
         /// <summary>
@@ -128,7 +148,7 @@ namespace PrimeNumbers
 
             for(int i = 2; i <= num; i++)
             {
-                List<int> temp = nums.Where(n => n % i == 0).ToList();
+                List<int> temp = nums.Where(n => n % i == 0 && n != i).ToList();
                 nums = nums.Except(temp).ToList();
             }
 
