@@ -1,0 +1,8 @@
+﻿<Router AppAssembly="typeof(Program).Assembly"> <!-- Essentially loads up the Program.cs class and the assembly that is within it -->
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" /> <!-- This is an accessbility helper to give the app a starting point, such as the h1 tag, for things like a screen reader to more easily use the site -->
+    </Found>
+</Router>
+
+<!-- This page is generally not changed at all for the majority of applications, with the exception of maybe changing the default layout -->

@@ -1,0 +1,40 @@
+﻿@rendermode InteractiveAuto
+
+<h3>Testing</h3>
+
+<button class="btn btn-primary" @onclick="UpdateText">Update Text</button>
+
+@if (!string.IsNullOrEmpty(textInfo))
+{
+    <script>
+        console.log("textInfo is not null");
+    </script>
+    <h4>@textInfo</h4>
+}
+
+<h2>@num</h2>
+<button class="btn" @onclick="UpNumber">Up Number</button>
+<ul>
+    @for (int i = 0; i < 10; i++)
+    {
+        <li>@GetNumberText(i)</li>
+    }
+</ul>
+
+@code {
+
+    private string? textInfo = string.Empty;
+    private int num = 0;
+
+    private void UpdateText()
+    {
+        textInfo = "This is the updated text string";
+    }
+
+    private void UpNumber()
+    {
+        num++;
+    }
+
+    private string GetNumberText(int i) => $"This is number {i}"; // this is a method that returns a string
+}

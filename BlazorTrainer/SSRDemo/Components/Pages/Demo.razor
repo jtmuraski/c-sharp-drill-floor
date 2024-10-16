@@ -1,0 +1,22 @@
+﻿<!-- This is a demo component-->
+
+<h3>Demo</h3>
+
+<!-- this is an example of razor syntax, which allows you to put C# code straight into the HTML-->
+@if(textInfo is not null)
+{
+    <h4>@textInfo</h4>
+}
+
+<button class="btn btn-primary" @onclick="UpdateText">Update Text</button> <!-- this button calls the UPdateText method in the code section. NOTE: () are not used when calling the method in a HTML tag-->
+
+@code {
+    // methods and properties that are only for this component should be marked as private
+
+    private string? textInfo = string.Empty;
+
+    private  void UpdateText()
+    {
+        textInfo = "This is the updated text string";
+    }
+}
