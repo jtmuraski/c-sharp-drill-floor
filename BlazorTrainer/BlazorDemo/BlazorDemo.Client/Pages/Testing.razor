@@ -1,5 +1,7 @@
 ﻿@rendermode InteractiveAuto
-
+<!-- Rendermode InteractiveAuto is crucial, as it allows the user to interact with the component. Setting it to auto allows the app to use Blazor WebAssembly if available, otherwise 
+    it will use Blazor Server. 
+-->
 <h3>Testing</h3>
 
 <button class="btn btn-primary" @onclick="UpdateText">Update Text</button>
@@ -12,12 +14,29 @@
     <h4>@textInfo</h4>
 }
 
-<h2>@num</h2>
-<button class="btn" @onclick="UpNumber">Up Number</button>
+<button class="btn btn-primary" @onclick="UpdateText">Up Number</button>
+<!--If you have a method that takes a parameter, you call the method by turning it into a delegate-->
+<button class="btn btn-primary" @onclick="(() => UpdateNumberText(1))">Get Number Text</button>
+
 <ul>
     @for (int i = 0; i < 10; i++)
     {
-        <li>@GetNumberText(i)</li>
+        @*  <li>@GetNumberText(i)</li> *@
+        // Now, logically you think that you would get 10 buttons , each with a number from 0 to 9. However, this is not the case.
+        // The reason is that the method is called when the page is rendered, and not when the button is clicked. Since it is called when the page is rendered, it looks for the last value 
+        // of i, which is 9. Therefore, you will get 10 buttons, each with the number 9. So the tempNum variables here lives only within the curly braces, and not the for loop itself.
+        // To fix this, you need to turn the method into a delegate, and then call it when the button is clicked.
+        // This is done by using the lambda expression (() => UpdateNumberText(i)) and a temporary variable to store the value of i.
+        // This is a common mistake that people make when they are new to Blazor.
+
+        @* <li>
+            <button class="btn btn-primary" @onclick="(() => UpdateNumberText(i))">Get Number Text</button>
+       </li> *@
+
+       var tempNum = i;
+       <li>
+           <button class="btn btn-primary" @onclick="(() => UpdateNumberText(tempNum))">Get Number Text</button>
+       </li>
     }
 </ul>
 
@@ -31,10 +50,14 @@
         textInfo = "This is the updated text string";
     }
 
-    private void UpNumber()
+    // This is not an efficient method - these methods are vhere purely to show how to call a method with a parameter
+    private void UpdateNumberText(int i)
     {
-        num++;
+        textInfo = GetNumberText(i);
     }
 
-    private string GetNumberText(int i) => $"This is number {i}"; // this is a method that returns a string
+    private string GetNumberText(int i)
+    {
+        return $"This is the number {i}";
+    }
 }

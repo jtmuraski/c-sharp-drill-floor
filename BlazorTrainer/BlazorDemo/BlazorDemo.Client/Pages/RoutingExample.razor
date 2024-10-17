@@ -1,0 +1,28 @@
+﻿<!--By adding the "page" directive, this tells the app that this component is meant to be a full page within the app -->
+<!-- The route you specify here is how you navigate to the page, such as www.blazordemo.com/RoutingExample -->
+<!-- You can have multiple routes specified here, and they will each come to this page -->
+<!-- best practice is to have the route match the name of the component/file to help prevent confustion -->
+@page "/RoutingExample"
+@rendermode InteractiveAuto
+
+<!-- If you don't want to have a static string as the page route, you can do the below: -->
+@attribute [Route(nameof(RoutingExample))]
+
+<!-- This is the same as the above, but it is done using an attribute instead of the page directive-->
+<!-- This is not a very common way of setting the route, but is an option, but the route is then linked to the name of the file-->
+
+@inject NavigationManager Navigation // This is how you inject the NavigationManager service into the component in order to link to other pages
+
+<h3>RoutingExample</h3>
+
+<button class="btn btn-primary" @onclick="GoToCounter">Go To Counter</button>
+
+@code {
+    private void GoToCounter()
+    {
+        // Navigate to the counter page
+        //Navigation.NavigateTo("/counter");
+
+
+    }
+}

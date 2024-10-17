@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+<!--This is the page that gets injected into App.razor at the <Routes /> tag-->
+<!--As a layout, this acts as a container in essence for components will fit into-->
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -11,7 +13,7 @@
         </div>
 
         <article class="content px-4">
-            @Body
+            @Body <!-- This is where the components of the page get inserted-->
         </article>
     </main>
 </div>
