@@ -1,0 +1,64 @@
+﻿<!-- Putting the URL/{Title?} allows for the parameters to be set in the URL-->
+<!-- unless specified, the parameter type defaults to string -->
+<!-- NOTE: To put spaces in the parameter in the URL, you use %20 -->
+<!-- Putting the ? at the end of the parameter makes the param nullable, like a variable. If there is no ?, then the parameter is REQUIRED, and the page won't load without a value in that param-->
+@* @page "/BetterCounter/{Title?}"  *@
+<!-- This is a "catch all" route to catch any URL's that match the prefix. This is not commonly used as it is easy to step on routes toes-->
+@* @page "/BetterCounter/{*PageRoute}" *@
+
+@* @page "/BetterCounter/{StartingValue:int}/{IncrementValue:int?}" *@
+
+<!-- If using the query parameters, leave the route as just /BetterCounter-->
+@* @page "/BetterCounter"  *@
+
+@page "/BetterCounter/{Title?}"
+
+@inject NavigationManager Navigation
+@rendermode InteractiveAuto
+
+<PageTitle>The Better Counter</PageTitle>
+
+<h1>@Title</h1>
+
+<p role="status">Current count: @StartingValue</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    // --Parameters--
+    // Parameters are a way to pass data into a component from the parent component
+    // To set a parameter, you need to create a public property in the component and decorate it with the [Parameter] attribute
+    // Using the [SupplyParameterFromQuery] attribute allows the parameter to be set in the URL as a query, instead of a route parameter
+    // Example: URL/BetterCounter?Title=The%20Better%20Counter&StartingValue=10&IncrementValue=2&StartingValue=10
+    // Where the ? starts the query, and the & separates the parameters
+    // The property cannot have both the [Parameter] and [SupplyParameterFromQuery] attributes, as they are mutually exclusive]
+    // BUT you can mix and match between the two attributes on different properties
+    [Parameter]
+    //[SupplyParameterFromQuery]
+    public string? Title { get; set; }
+
+    //[Parameter]
+    [SupplyParameterFromQuery(Name = "Val")] //This allows the parameter to be set in the URL as Val instead of StartingValue
+    public int StartingValue { get; set; }
+
+    //[Parameter]
+    [SupplyParameterFromQuery]
+    public int? IncrementValue { get; set; }
+
+    private int currentCount = 0;
+
+    protected override void OnParametersSet()
+    {
+        // This method is called when the component is initialized or when the parameters are set - a StartUp method
+        // This is where we can set the values of the properties, and set a default value if the parameter is null
+
+        Title = Title ?? "Our Better Counter"; //Set title to Our Better Counter if Title is null (?? is the null-coalescing operator))
+        IncrementValue = IncrementValue ?? 1; //Set IncrementValue to 1 if IncrementValue is null
+    }
+
+    private void IncrementCount()
+    {
+        StartingValue += IncrementValue ?? 1;
+    }
+}

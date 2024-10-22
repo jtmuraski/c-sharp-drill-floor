@@ -1,0 +1,35 @@
+﻿@page "/QuickGridExample"
+@rendermode InteractiveAuto
+
+<h3>QuickGridExample</h3>
+
+<p>This is an example on how the new Microsoft provided Quick Grid can be used</p>
+
+<QuickGrid Items="people" PageSize="5">
+    <PropertyColumn Property="@(p => p.Id)" Sortable="true" />  
+    <PropertyColumn Property="@(p => p.FirstName)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.LastName)" Sortable="true" />
+    <PropertyColumn Property="@(p => p.StartDate)" Sortable="true" />
+</QuickGrid>
+
+@code {
+    // FYI: Records are similar to classes, but with some different functionalty
+        // For example, records are immutable by default, and they have value-based equality
+        // Records are a great way to store data, and are a great way to pass data between components
+        // records can also be created/decalred inline, unlkike classes
+    private record PersonRecord(int Id, string FirstName, string LastName, DateOnly StartDate);
+
+    private IQueryable<PersonRecord> people = new List<PersonRecord>
+    {
+        new PersonRecord(1, "John", "Doe", new DateOnly(2021, 1, 1)),
+        new PersonRecord(2, "Jane", "Smith", new DateOnly(2021, 2, 1)),
+        new PersonRecord(3, "Bob", "Johnson", new DateOnly(2022, 3, 1)),
+        new PersonRecord(4, "Sally", "Brown", new DateOnly(2022, 4, 1)),
+        new PersonRecord(5, "Tom", "Green", new DateOnly(2022, 5, 1)),
+        new PersonRecord(6, "Sue", "White", new DateOnly(2023, 6, 1)),
+        new PersonRecord(7, "Tim", "Black", new DateOnly(2023, 7, 1)),
+        new PersonRecord(8, "Jill", "Red", new DateOnly(2023, 8, 1)),
+        new PersonRecord(9, "Jack", "Blue", new DateOnly(2024, 9, 1)),
+        new PersonRecord(10, "Jenny", "Purple", new DateOnly(2024, 10, 1)),
+    }.AsQueryable();
+}

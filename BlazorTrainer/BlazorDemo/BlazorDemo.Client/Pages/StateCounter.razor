@@ -1,0 +1,28 @@
+﻿@page "/StateCounter"
+@rendermode InteractiveAuto
+@inject ILogger<StateCounter> log
+
+<PageTitle>State Counter</PageTitle>
+
+<h1>State Counter</h1>
+<p>This page is to show exampples on managing state in Blazor</p>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private async Task IncrementCount()
+    {
+        // This is an example of how to manage state in Blazor
+        // The page will not be re-rendered until eoverything in this method has been completed. So if you put multiple await Task.Delay(1000) in here, the page will not update until all of them have completed
+        // But you can tell the page to update by calling StateHasChanged() method - but it is not considered a best practice to do so since Blazor will automatically update the page when the method is done
+        // This is an edge case and shouldn't come up too often
+        currentCount++;
+
+        await Task.Delay(1000);
+        currentCount++;
+    }
+}

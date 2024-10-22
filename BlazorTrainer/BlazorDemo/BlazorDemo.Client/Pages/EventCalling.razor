@@ -1,0 +1,28 @@
+﻿@page "/EventCalling"
+@rendermode InteractiveAuto
+@inject ILogger<EventCalling> log
+
+<h3>Event Calling Example</h3>
+<p>This value is being updated on the button in the component</p>
+<h4>The Current Event Counter value is : @counterValue</h4>
+
+@if(counterValue <= 5)
+{
+    <EventExample OnCounterChange="UpdateCounter" /> <!--This sets the EventExample to listen for the OnCounterChange event. Once it hears that event trigger, it will then call the UpdateCounter method-->
+    <!-- The invoking method is sending the int val value for the UpdateCounter method to work-->
+}
+else
+{
+    <p>The counter has reached the specified value and is no longer visible</p>
+    <p>This is an example of how events can be used to display certain components or not on a parent page!</p>
+}
+
+
+@code {
+    private int counterValue;
+
+    private void UpdateCounter(int val)
+    {
+        counterValue = val;
+    }
+}

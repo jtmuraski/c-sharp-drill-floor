@@ -1,5 +1,6 @@
 ﻿@page "/counter"
 @inject NavigationManager Navigation
+@inject ILogger<Counter> log
 @rendermode InteractiveAuto
 
 <PageTitle>Counter</PageTitle>
@@ -10,6 +11,7 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 <button class="btn btn-primary" @onclick="RefreshPage">Refresh</button>
+<button class="btn btn-primary" @onclick="GoToBetterCounter">Go To Better Counter</button>
 
 @code {
     private int currentCount = 0;
@@ -25,5 +27,43 @@
         Navigation.Refresh(true);
         // Providing true will force the page to refresh
         // Now, if there are multiple instances of this component on the page, they will all refresh
+    }
+
+    private void GoToBetterCounter()
+    {
+        // This is how you can navigate to a different page with a query parameter
+        // Used with the @page "?BetterCounter/{Title?}" directive in the BetterCounter.razor file}
+        Navigation.NavigateTo("/BetterCounter/BetterCounterNav?val=25&IncrementValue=5");
+
+        // This is a way to navigate back to the same page, but with a different query parameter
+        //Navigation.NavigateTo(Navigation.GetUriWithQueryParameter("val", 35));
+
+        // This is a special way to navigate within a page, to go to a specific section of the page by using the #, followed by the id of the element
+        //Navigation.NavigateTo("PageName#SpecialId");
+    }
+
+    // --StartUp Method examples--
+    // If you have Async work going on, use the Async version of these methods
+
+    // This is called whenever the component is first loaded, or when a parameter has been set
+    protected override void OnParametersSet()
+    {
+        log.LogInformation("The is from OnParameterSet() method in Counter.razor");
+    }
+
+    // This is called when the component is initialized
+    protected override void OnInitialized()
+    {
+        log.LogInformation("OnInitialized() method in Counter.razor");
+    }
+
+    // This is called after the component has been rendered
+    // This is commonly where javascript work is done because the DOM has been fully constructed at this point.
+    // Calling javascript in the OnInitialized() method may not work because the DOM may not be fully constructed yet
+    // this method is called after the first render, and then after every render
+    //    for example, if you click on the 'Click Me' button here to increment the counter, this method will be called again, BUT firstRender will be false
+    protected override void OnAfterRender(bool firstRender)
+    {
+        log.LogInformation($"This is from OnInitialized() method in Counter.razor. FirstRender: {firstRender}");
     }
 }

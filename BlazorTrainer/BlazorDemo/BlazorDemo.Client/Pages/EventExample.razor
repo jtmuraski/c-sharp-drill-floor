@@ -1,0 +1,27 @@
+﻿@page "/EventExample"
+@inject ILogger<EventExample> log
+@rendermode InteractiveAuto
+
+<p>This is the actual component that is being loaded within the EventCalling page</p>
+<p role="status">Event Counter count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    // --Parameters--
+
+    // This is an Event that gets called when the counter changes
+    // Events are a great way to send data from the component back to the parent page
+    [Parameter]
+    public EventCallback<int> OnCounterChange { get; set; }
+
+    private int currentCount = 0;
+
+    private async Task IncrementCount()
+    {
+        currentCount++;
+
+        await OnCounterChange.InvokeAsync(currentCount); // This triggers the event to be called, but this needs a listener to listen for the event.
+                                                         // The listener for this example is on the Home page
+    }
+}
