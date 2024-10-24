@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">BlazorDemo</a>
+        <a class="navbar-brand" href="">John's Blazor Trainer'</a>
     </div>
 </div>
 
@@ -15,32 +15,8 @@
         </div>
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-
-          <div class="nav-item px-3">
-            <NavLink class="nav-link" href="bettercounter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> The Better Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="statecounter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Managing State Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="eventcalling">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Event Calling Example
-            </NavLink>
-        </div
-
-         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="quickgridexample">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Quick Grid Example
+            <NavLink class="nav-link" href="CountdownExample">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> RCL Countdown Example
             </NavLink>
         </div>
 
@@ -50,5 +26,46 @@
             </NavLink>
         </div>
     </nav>
+
+    @* Component Example Collapsable Menu *@
+    <a class="btn btn-outline-light" data-bs-toggle="collapse" href="#collapseComponentExample" role="button" aria-expanded="false">
+        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Component Examples
+    </a>
+    <div class="collapse" id="collapseComponentExample">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" type="button" href="counter">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+
+        <NavLink class="nav-link px-3" type="button" href="bettercounter">
+            <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Better Counter
+        </NavLink>
+
+        <NavLink class="nav-link px-3" type="button" href="statecounter">
+            <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> State Counter
+        </NavLink>
+
+        <NavLink class="nav-link px-3" type="button" href="eventcalling">
+            <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Event Calling Counter
+        </NavLink>
+
+        <NavLink class="nav-link px-3" type="button" href="quickgridexample">
+            <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Quick Grid Example
+        </NavLink>
+    </div>
+
+    @* Form Examples *@
+    <a class="btn btn-outline-light" data-bs-toggle="collapse" href="#collapseFormExamples" role="button" aria-expanded="false">
+        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Form Examples
+    </a>
+    <div class="collapse" id="collapseFormExamples">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" typeof="button" href="editformdemo">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Edit Form
+            </NavLink>
+        </div>
+    </div>
+
 </div>
 

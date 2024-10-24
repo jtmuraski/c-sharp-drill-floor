@@ -1,0 +1,36 @@
+<!-- You'll notice that there is no rendermode set here. This is because for an RCL component, you need to rely on the calling project to set the render mode-->
+<h2>Countdown Timer</h2>
+
+<!-- In order to use a static file from an RCL, you need to reference the file like below, instead of using a relative file path-->
+<div>
+    <img src="_content/RCLLibrary/img/profile.jpg" />
+</div>
+
+<p style="font-size: 26px">
+    Countdown: 00:@countdownValue
+</p>
+
+@if(countdownRunning == false)
+{
+    <button class="btn btn-primary" @onclick="StartCountdown">Start the countdown</button>
+}
+
+@code{
+    private int countdownValue = 10;
+    private bool countdownRunning = false;
+
+    private async Task StartCountdown()
+    {
+        countdownRunning = true;
+        countdownValue = 10;
+
+        while(countdownValue > 0)
+        {
+            countdownValue--;
+            StateHasChanged();
+            await Task.Delay(1000);
+        }
+
+        countdownRunning = false;
+    }
+}
