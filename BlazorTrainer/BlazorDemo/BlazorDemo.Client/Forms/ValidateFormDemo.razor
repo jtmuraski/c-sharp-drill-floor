@@ -1,0 +1,54 @@
+﻿@page "/forms/validateformdemo"
+@inject ILogger<ValidateFormDemo> log
+
+<h3>ValidateFormDemo</h3>
+
+<!-- The Model in the tag is NOT the datatype, it is the name of the object in the code section -->
+<EditForm Enhance Model="Person" method="post" FormName="PersonFormEnahnce" OnValidSubmit="SubmitForm">
+    <DataAnnotationsValidator />
+    <!-- ValidationarySummary will put a summary of all form issues at the top of the form
+    <ValidationSummary />
+    -->
+
+    <div>
+        <label>First Name:</label>
+        <InputText @bind-Value="Person.FirstName" DisplayName="First Name"/> <!-- This bind tot he First Name property of the Person Model-->
+        <ValidationMessage For="@(() => Person.FirstName)" /> <!-- ValidationMessage will put the error message right below the form field that had the issue-->
+    </div>
+    <div>
+        <label>Last Name</label>
+        <InputText @bind-Value="Person.LastName" DisplayName="Last Name"/> <!-- Binds to the Last Name property-->
+        <ValidationMessage For="@(() => Person.LastName)" />
+    </div>
+
+    <!-- Text Area input demo-->
+    <!-- Any HTML attributes, like rows, can be added to the Blazor tag. The C# won't know what to do with it, but the attribute will fall through to the HTML, which does know what to do with it-->
+    <div>
+        <label>Lifg Story</label>
+        <InputTextArea @bind-Value="Person.LifeStory" DisplayName="Life Story" rows="4" width="30%"/>
+    </div>
+
+    <!-- CHeckbox (bool) example-->
+    <div>
+        <label>Is Enrolled</label>
+        <InputCheckbox @bind-Value="Person.IsEnrolled" DisplayName="Is Enrolled"/>
+    </div>
+
+    <button class="btn btn-primary" type="submit">
+        Add Person
+    </button>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm]
+    private ValidatedPerson Person { get; set; } = new();
+
+    List<ValidatedPerson> People = new List<ValidatedPerson>();
+
+    private void SubmitForm()
+    {
+        log.LogInformation($"The persons name: {Person.FirstName} {Person.LastName}");
+        People.Add(Person);
+        Person = new ValidatedPerson();
+    }
+}
