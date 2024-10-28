@@ -1,0 +1,60 @@
+﻿@page "/Forms/fileuploadexample"
+@inject ILogger<FileUploadExample> log
+@rendermode InteractiveAuto
+
+<h3>FileUploadExample</h3>
+
+<EditForm Enhance Model="Person" method="post" FormName="PersonFormEnahnce" OnValidSubmit="SubmitForm">
+
+    <!-- This input does NOT directly upload the selected files. You need to do some other coding work to do that-->
+    <!-- Which would be done by streaming the file to your server or storage solution (such as Azure Blob storage or S3)-->
+    <!-- DO NOT TRUST THE USER! Always make sure that you have safe guards in place to protect against both malicous and accidental breaches, such as SQL Injection-->
+    <!-- File uploads are one of the most dangerous things that you can allow a user to do. Make sure that you have the proper safeguards in place-->
+    <div class="mb-3">
+        <InputFile OnChange="LoadFile" multiple></InputFile>
+    </div>
+
+</EditForm>
+
+@if(files.Count == 0)
+{
+    <p>No files have been uploaded yet.</p>
+}
+else
+{
+    <ul>
+        @foreach(var file in files)
+        {
+            <li>@file.Name</li>
+        }
+    </ul>
+}
+
+@code {
+    [SupplyParameterFromForm]
+    private ValidatedPerson Person { get; set; } = new();
+
+    List<ValidatedPerson> People = new List<ValidatedPerson>();
+    private List<IBrowserFile> files = new List<IBrowserFile>();
+    private int maxFiles = 5;
+
+    private void SubmitForm()
+    {
+        log.LogInformation($"The persons name: {Person.FirstName} {Person.LastName}");
+        People.Add(Person);
+        Person = new ValidatedPerson();
+    }
+
+    private void LoadFile(InputFileChangeEventArgs e)
+    {
+        files.Clear();
+
+        foreach (var file in e.GetMultipleFiles(maxFiles))
+        {
+            files.Add(file);
+            log.LogInformation($"File name: {file.Name}");
+            log.LogInformation($"File size: {file.Size}");
+            log.LogInformation($"File type: {file.ContentType}");
+        }
+    }
+}

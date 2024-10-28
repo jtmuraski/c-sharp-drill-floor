@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorDemo.Client", "Blazor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCLLibrary", "RCLLibrary\RCLLibrary.csproj", "{6A21A507-DA68-4A37-B162-B6034E204485}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DataAccessDB", "DataAccessDB\DataAccessDB.sqlproj", "{B48095FC-A775-4EB1-8DCA-75CB2B5CDC82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessDemoLibrary", "DataAccessDemoLibrary\DataAccessDemoLibrary.csproj", "{8F6D1E60-9BD6-4F91-96C1-95D8A1A71416}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,16 @@ Global
 		{6A21A507-DA68-4A37-B162-B6034E204485}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A21A507-DA68-4A37-B162-B6034E204485}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A21A507-DA68-4A37-B162-B6034E204485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B48095FC-A775-4EB1-8DCA-75CB2B5CDC82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B48095FC-A775-4EB1-8DCA-75CB2B5CDC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B48095FC-A775-4EB1-8DCA-75CB2B5CDC82}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B48095FC-A775-4EB1-8DCA-75CB2B5CDC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B48095FC-A775-4EB1-8DCA-75CB2B5CDC82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B48095FC-A775-4EB1-8DCA-75CB2B5CDC82}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{8F6D1E60-9BD6-4F91-96C1-95D8A1A71416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F6D1E60-9BD6-4F91-96C1-95D8A1A71416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F6D1E60-9BD6-4F91-96C1-95D8A1A71416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F6D1E60-9BD6-4F91-96C1-95D8A1A71416}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
