@@ -1,0 +1,46 @@
+﻿@page "/DataAccessDemo/DeletePeople"
+@inject IPeopleData sql
+@rendermode InteractiveServer
+
+<h3>Delete Person</h3>
+
+@if (People == null)
+{
+    <p>Getting people...</p>
+}
+else
+{
+    <table>
+        <tr>
+            <th>Action</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+        </tr>
+        @foreach (var person in People)
+        {
+            <tr>
+                <td><button @onclick="() => DeleteSelectedPerson(person.Id)"><span class="bi bi-archive"></span></button></td>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>
+                <td>@person.DateOfBirth</td>
+            </tr>
+        }
+    </table>
+    }
+
+
+@code {
+    private IEnumerable<PersonModel> People = new List<PersonModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        People = await sql.GetAllPeople();
+    }
+
+    private async Task DeleteSelectedPerson(int id)
+    {
+        await sql.DeletePerson(id);
+        People = await sql.GetAllPeople();
+    }
+}

@@ -1,0 +1,115 @@
+﻿@page "/DataAccessDemo/UpdatePerson"
+@inject IPeopleData sql
+@rendermode InteractiveServer
+
+<h3>Update Person</h3>
+
+@if(!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+
+@if(People is null)
+{
+    <p>Getting People...</p>
+}
+else
+{
+    // This allows the user to select a person from the dropdown list.
+    // The selected person Id will be what's bound to the selectedPerson variable.
+    <EditForm Model="selectedPerson" FormName="SelectePerson" OnValidSubmit="LoadPersonToUpdate" method="post">
+        <InputSelect @bind-Value="selectedPerson.Id" class="form-control">
+            <option value=0>---Select a Person---</option>
+            @foreach (var person in People)
+            {
+                <option value="@person.Id">@person.FirstName @person.LastName</option>
+            })
+        </InputSelect>
+
+        <button class="btn btn-primary" type="submit">Get This Person</button>
+    </EditForm>
+}
+
+@if (personToUpdate is not null)
+{
+    <EditForm Model="personToUpdate" FormName="UpdatePerson" method="post" OnSubmit="UpdateThisPerson">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label for="FirstName">First Name:</label>
+            <InputText id="FirstName" @bind-Value="personToUpdate.FirstName" />
+        </div>
+
+        <div>
+            <label for="LastName">Last Name:</label>
+            <InputText id="LastName" @bind-Value="personToUpdate.LastName" />
+        </div>
+
+        <div>
+            <label for="DateOfBirth">DateOfBirth</label>
+            <InputDate id="DateOfBirth" @bind-Value="personToUpdate.DateOfBirth" />
+        </div>
+
+        <button class="btn btn-outline-primary" type="submit">Update Person</button>
+    </EditForm>
+}
+
+@code {
+    // Unless needed, do NOT initialize the variable with a value. This will cause the form to not work as expected.
+    // Becuse the form will be bound to the selectedPerson.Id, we need to make sure that the Id is nullable.
+    // If you intialize the variables, they will no longer be truly 'null' and the form will not work as expected.
+    private IEnumerable<PersonModel>? People;
+    private SelectedPersonModel? selectedPerson = new();
+    private PersonModel? personToUpdate;
+    string? errorMessage;
+
+    // Model to map the UpdateSelectedPerson form to. This will be local to this component only
+    private class SelectedPersonModel
+    {
+        public int? Id { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshData();
+    }
+
+    private async Task RefreshData()
+    {
+        People = null;
+        People = await sql.GetAllPeople();
+    }
+
+    private void LoadPersonToUpdate()
+    {
+        if (selectedPerson.Id > 0)
+        {
+            errorMessage = string.Empty;
+            var foundPerson = People.FirstOrDefault(p => p.Id == selectedPerson.Id);
+
+            if (foundPerson is not null)
+            {
+                personToUpdate = new PersonModel();
+                personToUpdate.FirstName = foundPerson.FirstName;
+                personToUpdate.LastName = foundPerson.LastName;
+                personToUpdate.DateOfBirth = foundPerson.DateOfBirth;
+            }
+            else
+            {
+                errorMessage = "There was an unexpected error getting the persons data to update. Please try again.";
+                personToUpdate = null;
+            }
+        }
+    }
+
+    private async Task UpdateThisPerson()
+    {
+        await sql.UpdatePerson(personToUpdate);
+        personToUpdate = null;
+        selectedPerson.Id = 0;
+        await RefreshData();
+    }
+}

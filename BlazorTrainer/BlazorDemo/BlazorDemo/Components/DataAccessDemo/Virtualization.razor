@@ -1,0 +1,67 @@
+﻿@page "/DataAccessDemo/Virtualization"
+@rendermode InteractiveServer
+@inject IPeopleData sql
+
+<h3>Virtualization Demo</h3>
+
+<p>This is a demo on how to virtualize data. This is done because in reality, you can often times gets thousands to tens of thousands of rows of data. No matter what, this qty of data is very expensive.
+    Virtualization is a way to only load the data that is needed, and not the entire data set. This is done by only loading the data that is in view, and then loading more as the user scrolls down the page.
+</p>
+
+<p>Without virtualization, this list of 500 people will ALL be displayed, and Blazor has to monitor all 500+ elements for changes, which is taxing on the server</p>
+
+@* @foreach(var person in People)
+{
+    <p>@person.FirstName, @person.LastName, @person.DateOfBirth</p>
+}) *@
+
+
+@* Virtualize will only display the elements that are currently on the screen. So now, Blazor only has to watch and monitor the elements that are acutally on the screen. *@
+@* It does this by creating 3 divs based on the size of the scroll bar, one dive that's above the viewport, one below, and then the one the user is currently seeing, so as it scrolls, it moves elements from one div to the other*@
+@* <Virtualize Items="People" Context ="p">
+    <p>@p.FirstName, @p.LastName, @p.DateOfBirth</p>
+</Virtualize> *@
+
+@*This is a way that you can display data if there is no data found in the People object, in the EmptyContent element*@
+@* <Virtualize Items="People" Context="p">
+    <ItemContent>
+        <p>@p.FirstName, @p.LastName, @p.DateOfBirth</p>
+        </ItemContent>
+    <EmptyContent>
+        <p>No data found</p>
+    </EmptyContent>
+</Virtualize> *@
+
+@* It's not always appropiate to have the default divs above and below what is currently being viewed. Such as in this case, it is not appropatite to put a div inside of a table*@
+@* With something like a table, you can change the SpacerElement to be a <tr> instead of a div. This will tell the component to use the approparite element, which helps with accessiblity such as screen readers*@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+        </tr>
+    </thead>
+    <tbody>
+        <Virtualize Items="People" Context="p" SpacerElement="tr">
+            <tr>
+                <td>@p.FirstName</td>
+                <td>@p.LastName</td>
+                <td>@p.DateOfBirth.ToString("MM/dd/yyyy")</td>
+            </tr>
+        </Virtualize>
+    </tbody>
+</table>
+
+@code {
+    private List<PersonModel> People = new();
+
+    // Just a quick way to get some data to display
+    protected override void OnInitialized()
+    {
+        for(int i = 0; i < 500; i++)
+        {
+            People.Add(new() { FirstName = $"First Name {i}", LastName = $"Last Name {i}", DateOfBirth = DateTime.Now.AddYears(-(i / 5)) });
+        }
+    }
+}

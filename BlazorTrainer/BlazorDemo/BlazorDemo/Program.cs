@@ -1,7 +1,9 @@
 using BlazorDemo.Client.Pages;
 using BlazorDemo.Components;
+using DataAccessDemoLibrary.Data;
 
 // Program.cs is the entry point for the application. It is where the application is configured and started. It is the first file that is run when the application is started
+// This is the step at which all of the configurations are set up, and the services are added to the application
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents() // This is what adds Blazor to the application
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+// Adding the services from the DataAccessDemoLibrary
+// YOu do not need to send the config data to the services. Blazor will automatically inject the config data to the service, as long as the service has a constructor that takes in the config data
+builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddSingleton<IPeopleData, PeopleData>();
 
 var app = builder.Build();
 

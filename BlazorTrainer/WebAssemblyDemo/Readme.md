@@ -1,0 +1,7 @@
+- WebAssembly is a strictly client side app, unlike Blazor Server which is run on the server
+- Often called Wasm for short
+- Program.cs is very different from a server or web app
+- App.razor is also very different, and is actually more akin to the routes.razor file in Blazor server
+- The file containing the <head>, <body>, etc tags are in the wwwroot folder, in the index.html file 
+- Razor syntax and compoents are all the same as in a Blazor Web App
+- Wasm can run offline, unlike Blazor Server, and can be installed locally

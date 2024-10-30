@@ -1,0 +1,32 @@
+﻿@page "/posts"
+@using WebAssemblyDemo.Models
+@inject HttpClient Http
+
+<PageTitle>Posts Demo</PageTitle>
+
+@* Demo on how to call an API *@
+<h3>Posts</h3>
+
+@if(posts is null)
+{
+    <p>Loading data...</p>
+}
+else
+{
+    <Virtualize Items="posts" Context="post">
+        <div>
+            <h2>@post.title</h2>
+            <p>@post.body</p>
+        </div>
+    </Virtualize>
+}
+
+@code {
+    private PostModel[]? posts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = await Http.GetFromJsonAsync<PostModel[]>("posts");
+    }
+
+}

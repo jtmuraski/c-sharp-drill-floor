@@ -1,0 +1,29 @@
+﻿@page "/DataAccessDemo/DisplayPeople"
+@rendermode InteractiveServer
+@inject IPeopleData sql
+
+<h3>DisplayPeople</h3>
+
+@if(People == null)
+{
+    <p>Getting people...</p>
+}
+else
+{
+   <ul>
+       @foreach(var person in People)
+        {
+            <li>@person.FirstName, @person.LastName, @person.DateOfBirth</li>
+        }
+   </ul> 
+}
+
+@code {
+    private IEnumerable<PersonModel> People = new List<PersonModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        People = await sql.GetAllPeople();
+        StateHasChanged();
+    }
+}
